@@ -16,7 +16,6 @@ func _process(delta: float) -> void:
 	velocity = velocity.lerp(target_velocity, 1 - exp(-delta * ACCELERATION_SMOOTHING))
 	
 	move_and_slide()
-	print(velocity)
 
 
 func get_movement_vector():
