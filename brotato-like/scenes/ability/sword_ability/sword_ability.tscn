@@ -116,6 +116,7 @@ libraries = {
 autoplay = "swing"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 9
 texture = ExtResource("1_upg5g")
 offset = Vector2(0, -4)
 
