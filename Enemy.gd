@@ -8,17 +8,19 @@ func _ready() -> void:
     health_component.died.connect(_on_died)
 
 func _on_died() -> void:
-    # save the current position for respawn
+    # save current position for respawn
     var spawn_pos: Vector2 = global_position
-    # find and reparent to the 'enemy' container
-    var container = get_tree().get_first_node_in_group("enemy") as Node2D
+
+    # reparent into the 'enemy' container
+    var container := get_tree().get_first_node_in_group("enemy") as Node2D
     if container != null:
         get_parent().remove_child(self)
         container.add_child(self)
         global_position = spawn_pos
-    # defer playing the animation to the next idle frame
-    call_deferred("_play_default")
+        # play animation once added back to the scene tree
+        self.connect("tree_entered", Callable(self, "_play_after_tree_entered"), [], CONNECT_ONESHOT)
 
-func _play_default() -> void:
+func _play_after_tree_entered() -> void:
+    # restart the 'default' animation
     $AnimationPlayer.stop()
-    $AnimationPlayer.play("default", 0.0)
+    $AnimationPlayer.play("default")
